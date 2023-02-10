@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { updateScore, userAssertions } from '../../redux/actions';
 import './Questions.css';
 
 class Questions extends Component {
@@ -9,6 +10,8 @@ class Questions extends Component {
     quiz: [],
     counter: 30,
     showAnswers: false,
+    rightAnswer: '',
+    questionIndex: 0,
   };
 
   componentDidMount() {
@@ -17,15 +20,18 @@ class Questions extends Component {
   }
 
   shuffleQuestions = () => {
-    const { questions, curr } = this.props;
+    const { questions } = this.props;
+    const { questionIndex } = this.state;
     const rand = 0.5;
-    const quiz = [questions[curr].correct_answer, ...questions[curr].incorrect_answers];
+    const quiz = [questions[questionIndex]
+      .correct_answer, ...questions[questionIndex].incorrect_answers];
     const randomQuiz = quiz.sort(() => (
       Math.random() - rand
     ));
 
     this.setState({
       quiz: randomQuiz,
+      rightAnswer: questions[questionIndex].correct_answer,
     });
   };
 
@@ -46,20 +52,35 @@ class Questions extends Component {
     });
   };
 
-  handleAnswer = () => {
-    const { playerAnswer, showAnswers } = this.state;
+  updateScore = (target) => {
+    const { counter, rightAnswer, questionIndex } = this.state;
+    const { dispatch, questions } = this.props;
 
-    if (playerAnswer === 'show') {
-      this.setState({
-        showAnswers: !showAnswers,
-        playerAnswer: 'hide',
-      });
-    } else {
-      this.setState({
-        showAnswers,
-        playerAnswer: 'show',
-      });
+    const answers = questions[questionIndex];
+    const { difficulty } = answers;
+
+    const initialScore = 10;
+    let difficultyPoints = 0;
+    const one = 1;
+    const two = 2;
+    const three = 3;
+
+    if (difficulty === 'easy') difficultyPoints = one;
+    if (difficulty === 'medium') difficultyPoints = two;
+    if (difficulty === 'hard') difficultyPoints = three;
+
+    if (target === rightAnswer) {
+      const sumScore = initialScore + ((counter - 1) * difficultyPoints);
+      const assertion = 1;
+      dispatch(updateScore(sumScore));
+      dispatch(userAssertions(assertion));
     }
+  };
+
+  handleAnswer = ({ target }) => {
+    this.setState((prevState) => ({
+      showAnswers: !prevState.showAnswers,
+    }), () => this.updateScore(target.innerHTML));
   };
 
   render() {
@@ -110,6 +131,7 @@ const mapStateToProps = (state) => ({
 Questions.propTypes = {
   curr: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(Questions);
