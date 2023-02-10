@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setEmail, setName, setURL } from '../redux/actions';
+import { setEmail, setName, setURL, setQuiz } from '../redux/actions';
 
 class Login extends Component {
   state = {
     name: '',
     email: '',
     disable: true,
+  };
+
+  setQuestions = async () => {
+    const { history, dispatch } = this.props;
+    const maxQuestions = 5;
+    const errorNumber = 3;
+    const token = localStorage.getItem('token');
+    const url = `https://opentdb.com/api.php?amount=${maxQuestions}&token=${token}`;
+    try {
+      const questions = await fetch(url);
+      const data = await questions.json();
+      if (data.response_code === errorNumber) return history.push('/');
+      history.push('/game');
+      dispatch(setQuiz(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   handleValidate = () => {
@@ -35,7 +52,7 @@ class Login extends Component {
   };
 
   handleClick = async (event) => {
-    const { history, dispatch } = this.props;
+    const { dispatch } = this.props;
     const { name, email } = this.state;
     event.preventDefault();
     const token = await this.fetchAPI();
@@ -43,7 +60,7 @@ class Login extends Component {
     dispatch(setName(name));
     dispatch(setEmail(email));
     dispatch(setURL(email));
-    history.push('/game');
+    await this.setQuestions();
   };
 
   render() {
