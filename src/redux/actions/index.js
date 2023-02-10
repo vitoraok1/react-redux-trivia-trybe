@@ -5,6 +5,8 @@ export const SET_EMAIL = 'SET_EMAIL';
 export const SET_URL = 'SET_URL';
 export const SET_QUESTION = 'SET_QUESTION';
 export const SET_CURRENTQUESTION = 'SET_CURRENTQUESTION';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const USER_ASSERTIONS = 'USER_ASSERTIONS';
 
 export const setQuiz = (data) => ({
   type: SET_QUESTION,
@@ -24,4 +26,14 @@ export const setEmail = (email) => ({
 export const setURL = (email) => ({
   type: SET_URL,
   payload: Extras.generateUrl(email),
+});
+
+export const updateScore = (score) => ({
+  type: UPDATE_SCORE,
+  payload: score,
+});
+
+export const userAssertions = (payload) => ({
+  type: USER_ASSERTIONS,
+  payload,
 });
