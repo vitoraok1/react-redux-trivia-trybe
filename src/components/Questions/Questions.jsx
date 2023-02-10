@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { updateScore, userAssertions } from '../../redux/actions';
 import './Questions.css';
 
@@ -12,6 +13,7 @@ class Questions extends Component {
     showAnswers: false,
     rightAnswer: '',
     questionIndex: 0,
+    nextPage: false,
   };
 
   componentDidMount() {
@@ -83,10 +85,30 @@ class Questions extends Component {
     }), () => this.updateScore(target.innerHTML));
   };
 
+  handleNextQuestion = () => {
+    const five = 5;
+    this.setState((prevState) => ({
+      questionIndex: prevState
+        .questionIndex + 1 === five ? prevState
+          .questionIndex : prevState.questionIndex + 1,
+      showAnswers: false,
+      playerAnswer: 'hide',
+      nextPage: prevState.questionIndex + 1 === five,
+    }), () => {
+      const { history } = this.props;
+      const { nextPage } = this.state;
+      if (nextPage) {
+        return history.push('/feedback');
+      }
+      this.timeCounter();
+      this.shuffleQuestions();
+    });
+  };
+
   render() {
-    const { questions, curr } = this.props;
-    const { quiz, playerAnswer, showAnswers, counter } = this.state;
-    const { category, question } = questions[curr];
+    const { questions } = this.props;
+    const { quiz, playerAnswer, showAnswers, counter, questionIndex } = this.state;
+    const { category, question } = questions[questionIndex];
 
     return (
       <div>
@@ -96,12 +118,12 @@ class Questions extends Component {
           {quiz.map((answer, index) => (
             <button
               key={ index }
-              data-testid={ questions[curr].correct_answer === answer
+              data-testid={ questions[questionIndex].correct_answer === answer
                 ? 'correct-answer'
-                : `wrong-answer-${curr}` }
+                : `wrong-answer-${questionIndex}` }
               onClick={ this.handleAnswer }
               className={
-                `${playerAnswer}${questions[curr]
+                `${playerAnswer}${questions[questionIndex]
                   .correct_answer === answer ? 'Correct' : 'Wrong'}`
               }
               disabled={ showAnswers || counter === 0 }
@@ -109,6 +131,15 @@ class Questions extends Component {
               { answer }
             </button>
           ))}
+          <br />
+          { showAnswers && (
+            <button
+              data-testid="btn-next"
+              onClick={ this.handleNextQuestion }
+            >
+              Next
+            </button>
+          )}
           <br />
           <br />
           <span>
@@ -124,14 +155,15 @@ class Questions extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  curr: state.quiz.currentQuestion,
   questions: state.quiz.questions.results,
 });
 
 Questions.propTypes = {
-  curr: PropTypes.number.isRequired,
   questions: PropTypes.arrayOf.isRequired,
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
-export default connect(mapStateToProps)(Questions);
+export default withRouter(connect(mapStateToProps)(Questions));
