@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './Questions.css';
 
 class Questions extends Component {
   state = {
-    playerAnswer: false,
+    playerAnswer: 'hide',
+    quiz: [],
   };
 
-  createAnswersArray = () => {
+  componentDidMount() {
     const { questions, curr } = this.props;
-    return [questions[curr].correct_answer, ...questions[curr].incorrect_answers];
-  };
+    const quiz = [questions[curr].correct_answer, ...questions[curr].incorrect_answers];
+    this.setState({
+      quiz: this.shuffle(quiz),
+    });
+  }
 
   shuffle = (array) => {
     const rand = 0.5;
@@ -21,31 +26,31 @@ class Questions extends Component {
 
   handleAnswer = () => {
     this.setState({
-      playerAnswer: true,
+      playerAnswer: 'show',
     });
   };
 
   render() {
     const { questions, curr } = this.props;
-    const { playerAnswer } = this.state;
+    const { quiz, playerAnswer } = this.state;
     const { category, question } = questions[curr];
-    let answers = this.createAnswersArray();
-    if (!playerAnswer) answers = this.shuffle(answers);
+
     return (
       <div>
         <p data-testid="question-category">{ category }</p>
         <p data-testid="question-text">{ question }</p>
         <div data-testid="answer-options">
-          {answers.map((answer, index) => (
+          {quiz.map((answer, index) => (
             <button
               key={ index }
               data-testid={ questions[curr].correct_answer === answer
                 ? 'correct-answer'
                 : `wrong-answer-${curr}` }
               onClick={ this.handleAnswer }
-              style={ {
-                backgroundColor: playerAnswer ? 'red' : 'white',
-              } }
+              className={
+                `${playerAnswer}${questions[curr]
+                  .correct_answer === answer ? 'Correct' : 'Wrong'}`
+              }
             >
               { answer }
             </button>
