@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import Header from '../components/Header';
 
-class FeedBack extends Component {
+class Feedback extends Component {
   state = {
     text: '',
   };
@@ -11,7 +11,6 @@ class FeedBack extends Component {
   componentDidMount() {
     const { assertions } = this.props;
     const three = 3;
-    this.saveRank();
     if (+assertions < three) {
       return this.setState({ text: 'Could be better...' });
     } this.setState({ text: 'Well Done!' });
@@ -36,9 +35,9 @@ const mapStateToProps = (globalState) => ({
   score: globalState.player.score,
 });
 
-FeedBack.propTypes = {
+Feedback.propTypes = {
   assertions: propTypes.number.isRequired,
   score: propTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(FeedBack);
+export default connect(mapStateToProps)(Feedback);

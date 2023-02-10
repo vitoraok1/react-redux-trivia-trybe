@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { setEmail, setName, setURL, setQuiz } from '../redux/actions';
 
 class Login extends Component {
@@ -20,6 +21,9 @@ class Login extends Component {
       const questions = await fetch(url);
       const data = await questions.json();
       if (data.response_code === errorNumber) return history.push('/');
+      // history.push({
+      //   pathname: '/game',
+      // });
       history.push('/game');
       dispatch(setQuiz(data));
     } catch (error) {
@@ -111,4 +115,4 @@ Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect()(Login);
+export default withRouter(connect()(Login));
