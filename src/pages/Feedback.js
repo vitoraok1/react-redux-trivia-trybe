@@ -16,6 +16,11 @@ class Feedback extends Component {
     } this.setState({ text: 'Well Done!' });
   }
 
+  playAgainBtn = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     const { text } = this.state;
     const { score, assertions } = this.props;
@@ -25,6 +30,14 @@ class Feedback extends Component {
         <p data-testid="feedback-text">{text}</p>
         <p data-testid="feedback-total-score">{score}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.playAgainBtn }
+        >
+          Play Again
+
+        </button>
       </div>
     );
   }
@@ -33,11 +46,13 @@ class Feedback extends Component {
 const mapStateToProps = (globalState) => ({
   assertions: globalState.player.assertions,
   score: globalState.player.score,
+
 });
 
 Feedback.propTypes = {
   assertions: propTypes.number.isRequired,
   score: propTypes.number.isRequired,
+  history: propTypes.shape({ push: propTypes.func.isRequired }).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
