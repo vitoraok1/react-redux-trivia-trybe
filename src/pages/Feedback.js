@@ -36,7 +36,6 @@ class Feedback extends Component {
           onClick={ this.playAgainBtn }
         >
           Play Again
-
         </button>
         <button
           data-testid="btn-ranking"
@@ -52,7 +51,6 @@ class Feedback extends Component {
 const mapStateToProps = (globalState) => ({
   assertions: globalState.player.assertions,
   score: globalState.player.score,
-
 });
 
 Feedback.propTypes = {

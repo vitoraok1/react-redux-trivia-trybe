@@ -1,4 +1,10 @@
-import { SET_NAME, SET_EMAIL, SET_URL, UPDATE_SCORE, USER_ASSERTIONS } from '../actions';
+import { SET_NAME,
+  SET_EMAIL,
+  SET_URL,
+  UPDATE_SCORE,
+  USER_ASSERTIONS,
+  SET_SAVE,
+  RESET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -6,6 +12,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
   score: 0,
   url: '',
+  save: false,
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -30,10 +37,20 @@ const user = (state = INITIAL_STATE, action) => {
       ...state,
       score: state.score + action.payload,
     };
+  case RESET_SCORE:
+    return {
+      ...state,
+      score: 0,
+    };
   case USER_ASSERTIONS:
     return {
       ...state,
       assertions: state.assertions + action.payload,
+    };
+  case SET_SAVE:
+    return {
+      ...state,
+      save: action.payload,
     };
   default:
     return state;

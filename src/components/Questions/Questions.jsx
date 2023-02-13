@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { loadScore } from '../../extras/functions';
 import { updateScore, userAssertions } from '../../redux/actions';
 import './Questions.css';
 
@@ -20,6 +21,19 @@ class Questions extends Component {
     this.shuffleQuestions();
     this.timeCounter();
   }
+
+  saveOnStorage = () => {
+    const { url, name, score } = this.props;
+    const player = {
+      url,
+      name,
+      score,
+    };
+    let ranking = loadScore();
+    if (ranking === null) ranking = [];
+    ranking.push(player);
+    localStorage.setItem('score', JSON.stringify(ranking));
+  };
 
   shuffleQuestions = () => {
     const { questions } = this.props;
@@ -85,7 +99,7 @@ class Questions extends Component {
     }), () => this.updateScore(target.innerHTML));
   };
 
-  handleNextQuestion = () => {
+  handleNextQuestion = async () => {
     const five = 5;
     this.setState((prevState) => ({
       questionIndex: prevState
@@ -94,10 +108,11 @@ class Questions extends Component {
       showAnswers: false,
       playerAnswer: 'hide',
       nextPage: prevState.questionIndex + 1 === five,
-    }), () => {
+    }), async () => {
       const { history } = this.props;
       const { nextPage } = this.state;
       if (nextPage) {
+        this.saveOnStorage();
         return history.push('/feedback');
       }
       this.timeCounter();
@@ -156,10 +171,16 @@ class Questions extends Component {
 
 const mapStateToProps = (state) => ({
   questions: state.quiz.questions.results,
+  name: state.player.name,
+  score: state.player.score,
+  url: state.player.url,
 });
 
 Questions.propTypes = {
   questions: PropTypes.arrayOf.isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,

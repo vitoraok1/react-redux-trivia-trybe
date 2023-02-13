@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { loadScore } from '../extras/functions';
+import { resetScore } from '../redux/actions/index';
 
-export default class Ranking extends Component {
+class Ranking extends Component {
+  handleClick = () => {
+    const { dispatch, history } = this.props;
+    dispatch(resetScore());
+    history.push('/');
+  };
+
   render() {
-    const { history } = this.props;
+    const top = loadScore().sort((a, b) => b.score - a.score);
     return (
       <div>
         <h1 data-testid="ranking-title">
           Ranking
         </h1>
+        {top.map(({ name, url, score }, index) => (
+          <div key={ score }>
+            <p data-testid={ `player-name-${index}` }>{ name }</p>
+            <p data-testid={ `player-score-${index}` }>{ score }</p>
+            <img data-testid="header-profile-picture" alt={ name } src={ url } />
+          </div>
+        ))}
         <button
           data-testid="btn-go-home"
-          onClick={ () => history.push('/') }
+          onClick={ this.handleClick }
         >
           Voltar para o início
         </button>
@@ -22,4 +39,7 @@ export default class Ranking extends Component {
 
 Ranking.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
+
+export default withRouter(connect()(Ranking));
