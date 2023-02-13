@@ -7,6 +7,8 @@ export const SET_QUESTION = 'SET_QUESTION';
 export const SET_CURRENTQUESTION = 'SET_CURRENTQUESTION';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const USER_ASSERTIONS = 'USER_ASSERTIONS';
+export const SET_SAVE = 'SET_SAVE';
+export const RESET_SCORE = 'RESET_SCORE';
 
 export const setQuiz = (data) => ({
   type: SET_QUESTION,
@@ -31,6 +33,11 @@ export const setURL = (email) => ({
 export const updateScore = (score) => ({
   type: UPDATE_SCORE,
   payload: score,
+});
+
+export const resetScore = () => ({
+  type: RESET_SCORE,
+  payload: 0,
 });
 
 export const userAssertions = (payload) => ({
