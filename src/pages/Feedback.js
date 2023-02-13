@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -23,7 +23,7 @@ class Feedback extends Component {
 
   render() {
     const { text } = this.state;
-    const { score, assertions } = this.props;
+    const { score, assertions, history } = this.props;
     return (
       <div>
         <Header />
@@ -38,6 +38,12 @@ class Feedback extends Component {
           Play Again
 
         </button>
+        <button
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </div>
     );
   }
@@ -50,9 +56,9 @@ const mapStateToProps = (globalState) => ({
 });
 
 Feedback.propTypes = {
-  assertions: propTypes.number.isRequired,
-  score: propTypes.number.isRequired,
-  history: propTypes.shape({ push: propTypes.func.isRequired }).isRequired,
+  assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
