@@ -13,7 +13,6 @@ class Ranking extends Component {
   };
 
   render() {
-    const { history } = this.props;
     const top = loadScore().sort((a, b) => b.score - a.score);
     return (
       <div>
@@ -40,6 +39,7 @@ class Ranking extends Component {
 
 Ranking.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect()(Ranking));
