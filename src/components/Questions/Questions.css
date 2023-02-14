@@ -1,7 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap') ;
+
+.div-container {
+  color: white;
+  margin: auto;
+  max-width: 85vw;
+}
+
+.div-font {
+  font-family: Anton , sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.div-time {
+  color: red;
+  font-family: Anton , sans-serif;
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.p-gameOver {
+  font-size: 50px;
+}
+
+.btn-answer {
+  background-color: #3ab4c4;
+  border: 0;
+  border-radius: 5px;
+  font-family: Anton , sans-serif;
+  font-size: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 15px;
+  min-width: 200px;
+}
+
+.btn-answer:hover {
+  background-color: #1d724e;
+}
+
+.div-category {
+  color: #747474;
+}
+
+.div-questions p {
+  font-size: 1.5rem;
+}
+
+.div-answers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.div-next {
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.btn-next {
+  background-color: #2cb67d;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px rgb(28, 28, 28);
+  color: #fffffe;
+  cursor: pointer;
+  font-family: Anton , sans-serif;
+  font-size: 20px;
+  height: 40px;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  text-align: center;
+  width: 100px;
+
+}
+
+.btn-next:hover {
+  background-color: #5233b1;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 3px 3px 5px black;
+  color: black;
+}
+
+.card-game {
+  background-color: rgb(30, 33, 36);
+  border: 0.5px solid white;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px 2px rgb(28, 28, 28);
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  padding: 2.5rem;
+  text-align: center;
+}
+
 .showWrong {
+  background-color: #72757e;
   border: 3px solid red;
 }
 
 .showCorrect {
   border: 3px solid rgb(6, 240, 15);
+}
+
+.logo-div {
+  text-align: center;
 }

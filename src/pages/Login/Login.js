@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { setEmail, setName, setURL, setQuiz } from '../redux/actions';
+import { setEmail, setName, setURL, setQuiz } from '../../redux/actions';
+import logo from '../../trivia.png';
+import './Login.css';
 
 class Login extends Component {
   state = {
@@ -21,9 +23,6 @@ class Login extends Component {
       const questions = await fetch(url);
       const data = await questions.json();
       if (data.response_code === errorNumber) return history.push('/');
-      // history.push({
-      //   pathname: '/game',
-      // });
       history.push('/game');
       dispatch(setQuiz(data));
     } catch (error) {
@@ -71,39 +70,54 @@ class Login extends Component {
     const { history } = this.props;
     const { name, email, disable } = this.state;
     return (
-      <div>
-        <form>
-          <input
-            type="text"
-            data-testid="input-player-name"
-            placeholder="Insira seu nome"
-            value={ name }
-            name="name"
-            onChange={ this.handleChange }
-          />
-          <input
-            type="email"
-            data-testid="input-gravatar-email"
-            placeholder="Insira seu e-mail"
-            value={ email }
-            name="email"
-            onChange={ this.handleChange }
-          />
-          <button
-            data-testid="btn-play"
-            disabled={ disable }
-            onClick={ this.handleClick }
-          >
-            Play
-          </button>
-          <button
-            data-testid="btn-settings"
-            onClick={ () => history.push('/config') }
-          >
-            Configurações
-          </button>
+      <main className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <form className="form-login">
+          <div className="div-name">
+            <label className="input-login" htmlFor="name">
+              Nome:
+              <input
+                type="text"
+                data-testid="input-player-name"
+                value={ name }
+                name="name"
+                onChange={ this.handleChange }
+                className="form-control input-login"
+              />
+            </label>
+          </div>
+          <div className="div-email">
+            <label className="input-login" htmlFor="gravatarEmail">
+              Email:
+              <input
+                type="email"
+                data-testid="input-gravatar-email"
+                value={ email }
+                name="email"
+                onChange={ this.handleChange }
+                className="form-control input-login"
+              />
+            </label>
+          </div>
+          <div className="button-play">
+            <button
+              data-testid="btn-play"
+              disabled={ disable }
+              onClick={ this.handleClick }
+              className="btn-play"
+            >
+              Play
+            </button>
+            <button
+              data-testid="btn-settings"
+              onClick={ () => history.push('/config') }
+              className="btn-settings"
+            >
+              Configurações
+            </button>
+          </div>
         </form>
-      </div>
+      </main>
     );
   }
 }

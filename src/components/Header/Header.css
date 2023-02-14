@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap') ;
+
+.header-game {
+  align-items: center;
+  background-color: rgb(30, 33, 36);
+  color: rgb(117, 117, 117);
+  display: flex;
+  font-family: Anton , sans-serif;
+  font-size: 22px;
+  height: 80px;
+  margin-top: 0;
+  padding-top: 10px;
+  width: 100vw;
+}
+
+.header-game p {
+  margin-left: 10px;
+  margin-right: 15px;
+}
+
+.image-gravatar {
+  border: 0.5px solid white;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  width: 50px;
+}

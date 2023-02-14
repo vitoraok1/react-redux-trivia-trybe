@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loadScore } from '../../extras/functions';
 import { updateScore, userAssertions } from '../../redux/actions';
+import logo from '../../trivia.png';
 import './Questions.css';
 
 class Questions extends Component {
@@ -126,45 +127,59 @@ class Questions extends Component {
     const { category, question } = questions[questionIndex];
 
     return (
-      <div>
-        <p data-testid="question-category">{ category }</p>
-        <p data-testid="question-text">{ question }</p>
-        <div data-testid="answer-options">
-          {quiz.map((answer, index) => (
-            <button
-              key={ index }
-              data-testid={ questions[questionIndex].correct_answer === answer
-                ? 'correct-answer'
-                : `wrong-answer-${questionIndex}` }
-              onClick={ this.handleAnswer }
-              className={
-                `${playerAnswer}${questions[questionIndex]
-                  .correct_answer === answer ? 'Correct' : 'Wrong'}`
-              }
-              disabled={ showAnswers || counter === 0 }
-            >
-              { answer }
-            </button>
-          ))}
-          <br />
-          { showAnswers && (
-            <button
-              data-testid="btn-next"
-              onClick={ this.handleNextQuestion }
-            >
-              Next
-            </button>
-          )}
-          <br />
-          <br />
-          <span>
-            {' '}
-            Time left:
-            {' '}
-            { counter }
-          </span>
+      <section>
+        <div className="div-container">
+          <div className="div-time">
+            <p>
+              {' '}
+              Time left:
+              {' '}
+              { counter }
+            </p>
+          </div>
+          <div className="card-game">
+            <div className="div-category div-font">
+              <p data-testid="question-category">{ category }</p>
+            </div>
+            <div className="div-questions div-font">
+              <p data-testid="question-text">{ question }</p>
+              <hr />
+            </div>
+            <div data-testid="answer-options" className="div-answers div-font">
+              {quiz.map((answer, index) => (
+                <button
+                  key={ index }
+                  data-testid={ questions[questionIndex].correct_answer === answer
+                    ? 'correct-answer'
+                    : `wrong-answer-${questionIndex}` }
+                  onClick={ this.handleAnswer }
+                  className={
+                    `btn-answer ${playerAnswer}${questions[questionIndex]
+                      .correct_answer === answer ? 'Correct' : 'Wrong'}`
+                  }
+                  disabled={ showAnswers || counter === 0 }
+                >
+                  { answer }
+                </button>
+              ))}
+            </div>
+            <div className="div-next div-font">
+              { showAnswers && (
+                <button
+                  data-testid="btn-next"
+                  onClick={ this.handleNextQuestion }
+                  className="btn-next"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+        <div className="logo-div">
+          <img src={ logo } className="App-logo" alt="logo" />
+        </div>
+      </section>
     );
   }
 }
