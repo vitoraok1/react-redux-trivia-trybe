@@ -6,6 +6,14 @@
     <br/>
      <br/>
      <br/>
+    
+
+
+https://github.com/vitoraok1/react-redux-trivia-trybe/assets/112435823/2dcc168b-831c-4d12-986d-89505ec8d817
+
+
+
+  </br>
   </p>
 </p>
 
