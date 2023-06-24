@@ -2,7 +2,7 @@
   <h2 align="center">Trivia</h2>
   <br/>
   <p align="center">
-    An application of a question and answer game based on the Trivia game, using React and Redux.
+    An application of a question and answer game based on the Trivia, using React and Redux.
     <br/>
      <br/>
      <br/>
